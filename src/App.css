@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+body{
+    font-family: 'Outfit', sans-serif;
+    background-color: #FFFFFF;
+    scroll-behavior: smooth;
+  
+}
+.fade-out-bck {
+	-webkit-animation: fade-out-bck 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: fade-out-bck 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.fade-in-fwd {
+	-webkit-animation: fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in-fwd 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+@-webkit-keyframes fade-out-bck {
+    0% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(-80px);
+              transform: translateZ(-80px);
+      opacity: 0;
+    }
+  }
+  @keyframes fade-out-bck {
+    0% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(-80px);
+              transform: translateZ(-80px);
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes fade-in-fwd {
+    0% {
+
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-in-fwd {
+    0% {
+ 
+      opacity: 0;
+    }
+    100% {
+   
+      opacity: 1;
+    }
+  }
+  
+  .movie1{
+    background: url("./assets//images/the-flash-2x.png") 
+  }
