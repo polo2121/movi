@@ -9,6 +9,8 @@ const Home = () => {
         <>
             <Hero />
             <MovieLists title="in threater" />
+            {/* <MovieLists title="trending" />
+            <MovieLists title="upcoming" /> */}
         </>
     )
 }

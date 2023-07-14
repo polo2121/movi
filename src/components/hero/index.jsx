@@ -4,13 +4,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import TitleBar from '../../components/title-bar'
 import MovieSlide from './movie-slide'
 
-
-
 const Hero = () => {
 
 
     return (
-        <div className=' bg-blue-light w-full h-fit px-10 py-[4%]'>
+        <div className=' bg-blue-light w-full h-fit px-10 py-[4%] mb-20'>
             <TitleBar />
             <div className='bg-white mt-10 lg:grid lg:grid-cols-2 m-auto px-[4%] py-[6%] rounded-[30px] font-bold relative'>
 

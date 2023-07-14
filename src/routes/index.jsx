@@ -1,26 +1,39 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 
 // - react router
 import { createBrowserRouter } from "react-router-dom"
 
 // - layout
-import Main from "../layout/main"
+const Main = lazy(() => import('../layout/Main'));
+
+// - components
+import Loading from './loading';
+import MainSkeleton from '../layout/main-skeleton';
 
 // - pages
-import Home from "../pages/Home"
+const Home = lazy(() => import('../pages/Home'));
 
 const Router = createBrowserRouter([
     {
         path: "/",
-        element: <Main />,
+        element:
+            <Suspense fallback={<MainSkeleton />}>
+                <Main />
+            </Suspense>,
         children: [
             {
                 index: true,
-                element: <Home />
+                element:
+                    <Suspense fallback={<Loading />}>
+                        <Home />
+                    </Suspense>
             },
             {
                 path: "/home",
-                element: <Home />
+                element:
+                    <Suspense fallback={<>Loading app...</>}>
+                        <Home />
+                    </Suspense>
             }
         ]
     }
