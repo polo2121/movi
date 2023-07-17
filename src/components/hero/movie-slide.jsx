@@ -6,13 +6,6 @@ import MovieInfo from './movie-info'
 import MovieImage from './movie-image'
 import MovieSlideSkeleton from './movie-slide-skeleton'
 
-// - assets
-import flash from '../../assets/images/the-flash-2x.png'
-import elemental from '../../assets/images/elemental.png'
-import transformer from '../../assets/images/transformer.png'
-import spiderVerse from '../../assets/images/spider-verse.png'
-import noHardFeeling from '../../assets/images/no-hard-feeling.png'
-
 // - third-party
 import axios from 'axios';
 import clsx from 'clsx';
@@ -25,54 +18,54 @@ const MovieSlide = () => {
     const [movies, setMovies] = useState([]);
     const [status, setStatus] = useState(null);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMovieSlideOrder((order) => {
-                if (order == 1)
-                    return 6
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setMovieSlideOrder((order) => {
+    //             if (order == 1)
+    //                 return 6
 
-                if (order >= 0 && order <= 6)
-                    return order - 1
-
-
-            })
-        }, 6000);
-        return () => clearInterval(interval);
-
-    }, [])
-
-    useEffect(() => {
-        setStatus("loading")
-        const controller = new AbortController();
-
-        const getTopRateMovies = async () => {
-            try {
-                const res = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=1&api_key=64856b8001240b857da978b710b84599`, { signal: controller.signal })
-
-                const trendingMovies = await res.data.results
-                console.log(trendingMovies.slice(0, 6))
-                setMovies(trendingMovies.slice(0, 5));
-                setStatus("done")
-            } catch (error) {
-                console.log(error)
-                setStatus("error")
-
-            }
-
-            // return results;
-
-        }
-        const delayAPI = setTimeout(() => {
-            getTopRateMovies();
-        }, 3000)
-
-        return () => {
-            controller.abort();
-            clearTimeout(delayAPI);
-        }
+    //             if (order >= 0 && order <= 6)
+    //                 return order - 1
 
 
-    }, [])
+    //         })
+    //     }, 6000);
+    //     return () => clearInterval(interval);
+
+    // }, [])
+
+    // useEffect(() => {
+    //     setStatus("loading")
+    //     const controller = new AbortController();
+
+    //     const getTopRateMovies = async () => {
+    //         try {
+    //             const res = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=1&api_key=64856b8001240b857da978b710b84599`, { signal: controller.signal })
+
+    //             const trendingMovies = await res.data.results
+    //             console.log(trendingMovies.slice(0, 6))
+    //             setMovies(trendingMovies.slice(0, 5));
+    //             setStatus("done")
+    //         } catch (error) {
+    //             console.log(error)
+    //             setStatus("error")
+
+    //         }
+
+    //         // return results;
+
+    //     }
+    //     const delayAPI = setTimeout(() => {
+    //         getTopRateMovies();
+    //     }, 3000)
+
+    //     return () => {
+    //         controller.abort();
+    //         clearTimeout(delayAPI);
+    //     }
+
+
+    // }, [])
 
     const movieSlideBase = 'absolute w-[400px] h-[329px] m-auto inset-0 transition-transform delay-200'
 
@@ -110,34 +103,6 @@ const MovieSlide = () => {
                 )
 
             }
-
-            {/* <div className={getMovieSlideStyle(3)}>
-                <MovieImage image={flash} />
-                <Rating />
-                <MovieInfo name="The Flash" />
-            </div >
-
-
-            <div className={getMovieSlideStyle(4)}>
-                <MovieImage image={transformer} />
-                <Rating />
-                <MovieInfo name="Transformer" />
-            </div >
-
-
-            <div className={getMovieSlideStyle(5)}>
-                <MovieImage image={elemental} />
-                <Rating />
-                <MovieInfo name="Elemental" />
-            </div >
-
-            <div className={getMovieSlideStyle(6)}>
-                <MovieImage image={spiderVerse} />
-                <Rating />
-                <MovieInfo name="Spider-Verse" />
-            </div > */}
-
-
         </>
     )
 }

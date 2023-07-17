@@ -5,8 +5,6 @@ import TitleBar from '../../components/title-bar'
 import MovieSlide from './movie-slide'
 
 const Hero = () => {
-
-
     return (
         <div className=' bg-blue-light w-full h-fit px-10 py-[4%] mb-20'>
             <TitleBar />

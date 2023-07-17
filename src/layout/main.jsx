@@ -10,7 +10,7 @@ const Main = () => {
     return (
         <>
             <Navbar />
-            <section className='ml-[240px]'>
+            <section className='md:ml-0 lg:ml-[clamp(220px,16vw,240px)]'>
                 <Outlet />
             </section>
         </>

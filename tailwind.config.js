@@ -23,6 +23,11 @@ export default {
       objectPosition: {
         "center-bottom": "center bottom",
       },
+      flex: {
+        5: "0 0 calc(100% / 5)",
+        4: "0 0 calc(100% / 4)",
+        3: "0 0 calc(100% / 3)",
+      },
     },
   },
   plugins: [],

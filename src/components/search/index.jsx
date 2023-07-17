@@ -1,28 +1,75 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
+// - components
+import SearchResult from '../search/search-result'
+import SearchInput from './search-input';
+
+// - api
+import axios from 'axios';
 
 // - third-party
-import clsx from 'clsx';
+import debounce from 'lodash.debounce';
+
 
 const Search = () => {
 
-    const [isFocus, setIsFocus] = useState(false);
+    const [isInputFocus, setIsInputFocus] = useState(false);
+    const [query, setQuery] = useState("");
+    const [queryResults, setQueryResults] = useState([]);
+    const [searchController, setSearchController] = useState();
+    const [foundResult, setFoundResult] = useState()
 
-    const searchInput = clsx(
-        'flex gap-1  w-[310px] h-12 rounded-full relative bg-white transition-transform',
-        isFocus && 'translate-y-[-10px]',
-        !isFocus && 'translate-y-[0px]'
-    )
+
+    const getSearchResults = async (searchQuery) => {
+        const controller = new AbortController();
+
+        try {
+            const res = await axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&include_adult=false&language=en-US&page=1&api_key=64856b8001240b857da978b710b84599`, { signal: controller.signal })
+            console.log(res)
+
+            const searchResults = await res.data
+
+            return searchResults;
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            controller.abort();
+        }
+    }
+
+    const searchRequest = debounce(async (searchQuery) => {
+        const data = await getSearchResults(searchQuery);
+        console.log(data)
+        setFoundResult(data.total_results)
+        setQueryResults(data.results)
+    }, 500)
+
+    const debouncedRequest = useCallback((searchQuery) => searchRequest(searchQuery), [])
+
+    const handleFocus = () => {
+        setSearchController(new AbortController());
+        if (isInputFocus === true) {
+            console.log("starting to abort")
+            searchController.abort();
+
+        }
+        console.log("win nay ")
+        setIsInputFocus(!isInputFocus)
+        setQueryResults([]);
+    }
+
+    const handleQuery = (e) => {
+        setQuery(e.target.value)
+        debouncedRequest(e.target.value);
+    }
+
+
     return (
-        <div className={searchInput}>
-            <div className="absolute flex items-center left-4 inset-y-0" >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 19L13 13M15 8C15 8.91925 14.8189 9.82951 14.4672 10.6788C14.1154 11.5281 13.5998 12.2997 12.9497 12.9497C12.2997 13.5998 11.5281 14.1154 10.6788 14.4672C9.82951 14.8189 8.91925 15 8 15C7.08075 15 6.1705 14.8189 5.32122 14.4672C4.47194 14.1154 3.70026 13.5998 3.05025 12.9497C2.40024 12.2997 1.88463 11.5281 1.53284 10.6788C1.18106 9.82951 1 8.91925 1 8C1 6.14348 1.7375 4.36301 3.05025 3.05025C4.36301 1.7375 6.14348 1 8 1C9.85652 1 11.637 1.7375 12.9497 3.05025C14.2625 4.36301 15 6.14348 15 8Z" stroke="black" strokeOpacity="0.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-            </div>
-
-            <input className="w-full pl-12 rounded-full" type="text" placeholder='Search with movie name...' onFocus={() => setIsFocus(!isFocus)} onBlur={() => setIsFocus(!isFocus)} />
-        </div>
+        <>
+            <SearchInput query={query} onSearch={handleQuery} isFocus={isInputFocus} onFocus={handleFocus} />
+            <SearchResult queryResults={queryResults} foundResult={foundResult} query={query} isFocus={isInputFocus} />
+        </>
     )
 }
 
