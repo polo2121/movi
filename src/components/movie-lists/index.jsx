@@ -6,13 +6,15 @@ import NextButton from './next-button';
 import PreviousButton from './previous-button';
 import MovieListSkeleton from './movie-list-skeleton';
 
-// - assets
-import Flash from "../../assets/images/the-flash-2x.png"
+
+// - hooks
+import useFetchMovieLists from '../../hooks/useFetchMovieLists';
+import useScreenSize from '../../hooks/useScreenSize';
+
 
 // - third-party
 import { motion } from 'framer-motion';
-import useFetchMovieLists from '../../hooks/useFetchMovieLists';
-import useScreenSize from './useScreenSize';
+
 
 
 
@@ -23,17 +25,44 @@ const MovieLists = ({ title }) => {
 
     const [status, setStatus] = useState("complete");
     const [moveValue, setMoveValue] = useState(0);
-    const [showControl, setShowControl] = useState("");
+    const [moveLimit, setMoveLimit] = useState(0);
+    const [showControl, setShowControl] = useState("next");
 
-
-
+    const movieSlideRef = useRef();
     // const { status, movieLists } = useFetchMovieLists();
     const { screenSize } = useScreenSize();
 
-    console.log(movieLists)
-    const movieSlide = useRef();
+    useEffect(() => {
+        console.log("Move Value Effect")
+        console.log(moveValue)
 
+        let value = Math.abs(moveValue)
+        if (value === moveLimit) {
+            console.log("back")
+            setShowControl("back")
 
+        }
+        if (value >= 0 && value < moveLimit)
+            setShowControl("next_back")
+        if (value === 0)
+            setShowControl("next")
+
+    }, [moveValue])
+
+    useEffect(() => {
+
+        console.log("Screen Size Effect")
+
+        if (screenSize[0] <= 1600 && screenSize[0] >= 1040)
+            setMoveLimit(300)
+
+        if (screenSize[0] <= 1040 && screenSize[0] >= 700)
+            setMoveLimit(400)
+
+        if (screenSize[0] <= 700 && screenSize[0] >= 600)
+            setMoveLimit(600)
+
+    }, [screenSize[0]])
 
     const movieByLists = {
         "in threater": "now_playing",
@@ -43,21 +72,22 @@ const MovieLists = ({ title }) => {
 
     const nextSlide = () => {
         setMoveValue((moveValue - 100));
+
     }
 
     const prevSlide = () => {
-        setMoveValue((moveValue + moveWidth))
+        setMoveValue((moveValue + 100))
     }
 
     return (
-        <section className='px-10 mb-4' ref={movieSlide}>
+        <section className='px-10 mb-4'>
             {status === "loading" && <MovieListSkeleton />}
             {status === "error" && <h1>something went wrong</h1>}
             {status === "complete" && (
                 <>
-                    <p>{screenSize[0]}</p>
+                    <p>{screenSize[0]}{moveLimit}</p>
                     <div className='flex justify-between items-center mb-4'>
-                        <h5 className='text-[25px] font-bold capitalize'>{title}</h5>
+                        <h5 className='text-[20px] md:text-[25px] font-bold capitalize'>{title}</h5>
                         <div className='flex gap-3'>
                             <PreviousButton onPrev={prevSlide} showControl={showControl} />
                             <NextButton onNext={nextSlide} showControl={showControl} />
@@ -68,6 +98,7 @@ const MovieLists = ({ title }) => {
 
                         <motion.div
                             className="flex w-full opacity-100"
+                            ref={movieSlideRef}
                             animate={{
                                 x: moveValue + "%",
                                 transition: { x: { type: 'spring', stiffness: 80, damping: 10 }, },

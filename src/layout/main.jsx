@@ -8,12 +8,12 @@ import Navbar from '../components/navbar'
 
 const Main = () => {
     return (
-        <>
+        <div className='flex'>
             <Navbar />
-            <section className='md:ml-0 lg:ml-[clamp(220px,16vw,240px)]'>
+            <section className='w-full'>
                 <Outlet />
             </section>
-        </>
+        </div>
     )
 }
 
