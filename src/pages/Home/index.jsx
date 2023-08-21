@@ -5,7 +5,12 @@ import React, { Children } from 'react'
 import Hero from '../../components/hero'
 import Breadcrumb from '../../components/breadcrumb'
 import Search from '../../components/search'
-import MovieLists from '../../components/movie-lists'
+import Logo from '../../components/logo'
+
+import MovieList from '../../components/movie-lists'
+import Community from '../../components/community'
+import SignUp from '../../components/signup'
+
 
 // - third-party
 import clsx from 'clsx'
@@ -18,6 +23,9 @@ const Home = () => {
                 breadcrumb={<Breadcrumb title="home" />}
                 search={<Search />} />
             <Hero />
+            <MovieList />
+            <SignUp />
+            <Community />
 
             {/* <MovieLists title="in threater" /> */}
             {/* <MovieLists title="trending" />
@@ -31,13 +39,22 @@ export default Home
 
 function Header({ breadcrumb, search }) {
 
-    const headerCss = clsx('flex justify-between items-center bg-blue-light py-10 px-6')
+    const headerCss = clsx(
+        'flex flex-col gap-6 bg-blue-light py-6 px-6',
+        'sm:items-center sm:py-10'
+    )
     return (
-        <div className={headerCss}>
-            {breadcrumb}
-            <div className=''>
-                {search}
+        <>
+            <div className='sm:hidden bg-blue-light flex items-center shadow-xl px-6'>
+                <Logo />
             </div>
-        </div>
+            <div className={headerCss}>
+                {breadcrumb}
+                <div className=''>
+                    {search}
+                </div>
+            </div>
+        </>
+
     )
 }

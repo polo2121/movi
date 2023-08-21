@@ -1,145 +1,51 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 
 // - components
-import MovieCard from '../movie-card'
-import NextButton from './next-button';
-import PreviousButton from './previous-button';
-import MovieListSkeleton from './movie-list-skeleton';
+import Title from "./title"
+import Subtitle from "./subtitle"
+import MovieCard from './movie-card'
 
 
-// - hooks
-import useFetchMovieLists from '../../hooks/useFetchMovieLists';
-import useScreenSize from '../../hooks/useScreenSize';
-
+// - assets
+import CinemaSVG from "../../assets/svgs/cinema.svg"
+import Flash from "../../assets/images/spider-verse.png"
 
 // - third-party
-import { motion } from 'framer-motion';
+import clsx from 'clsx'
+import { useRef } from 'react'
+import { motion } from 'framer-motion'
 
 
+const MovieList = () => {
 
+    const mobileMovieListContainerCss = clsx();
 
-const MovieLists = ({ title }) => {
-
-
-    const [movieLists, setMovieLists] = useState([]);
-
-    const [status, setStatus] = useState("complete");
-    const [moveValue, setMoveValue] = useState(0);
-    const [moveLimit, setMoveLimit] = useState(0);
-    const [showControl, setShowControl] = useState("next");
-
-    const movieSlideRef = useRef();
-    // const { status, movieLists } = useFetchMovieLists();
     const { screenSize } = useScreenSize();
+    const broswerWidth = screenSize[0]
 
     useEffect(() => {
-        console.log("Move Value Effect")
-        console.log(moveValue)
+    }, [broswerWidth])
 
-        let value = Math.abs(moveValue)
-        if (value === moveLimit) {
-            console.log("back")
-            setShowControl("back")
-
-        }
-        if (value >= 0 && value < moveLimit)
-            setShowControl("next_back")
-        if (value === 0)
-            setShowControl("next")
-
-    }, [moveValue])
-
-    useEffect(() => {
-
-        console.log("Screen Size Effect")
-
-        if (screenSize[0] <= 1600 && screenSize[0] >= 1040)
-            setMoveLimit(300)
-
-        if (screenSize[0] <= 1040 && screenSize[0] >= 700)
-            setMoveLimit(400)
-
-        if (screenSize[0] <= 700 && screenSize[0] >= 600)
-            setMoveLimit(600)
-
-    }, [screenSize[0]])
-
-    const movieByLists = {
-        "in threater": "now_playing",
-        "trending": "popular",
-        "upcoming": "upcoming"
-    }
-
-    const nextSlide = () => {
-        setMoveValue((moveValue - 100));
-
-    }
-
-    const prevSlide = () => {
-        setMoveValue((moveValue + 100))
-    }
+    // const calculateX = useCallback((itemsPerScreen, gap) => {
+    //     return (116 * itemsPerScreen) + gap
+    // }, [])
 
     return (
-        <section className='px-10 mb-4'>
-            {status === "loading" && <MovieListSkeleton />}
-            {status === "error" && <h1>something went wrong</h1>}
-            {status === "complete" && (
-                <>
-                    <p>{screenSize[0]}{moveLimit}</p>
-                    <div className='flex justify-between items-center mb-4'>
-                        <h5 className='text-[20px] md:text-[25px] font-bold capitalize'>{title}</h5>
-                        <div className='flex gap-3'>
-                            <PreviousButton onPrev={prevSlide} showControl={showControl} />
-                            <NextButton onNext={nextSlide} showControl={showControl} />
-                        </div>
+        <section className='mt-10 px-6 bg-slate-400 relative text-white overflow-hidden h-[20%]'>
+            <div className=' bg-blue-dark pt-8 flex flex-col gap-2 h-[60%] rounded-[10px] bg-contain bg-no-repeat' style={{ backgroundImage: `url(${CinemaSVG})` }}>
+                <Title>In Threater</Title>
+                <Subtitle>Find out what movies <br /> are showing in threater.</Subtitle>
+                <MovieCard />
+                {/* <Title />
+                <Subtitle />
+                <MovieCard /> */}
+            </div>
 
-                    </div>
-                    <div className='overflow-hidden'>
-
-                        <motion.div
-                            className="flex w-full opacity-100"
-                            ref={movieSlideRef}
-                            animate={{
-                                x: moveValue + "%",
-                                transition: { x: { type: 'spring', stiffness: 80, damping: 10 }, },
-                            }}
-                        >
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Hunter" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-
-
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-                            <MovieCard name="Galaxy" imagePath="nAbpLidFdbbi3efFQKMPQJkaZ1r.jpg" releaseDate="2023" />
-
-
-                            {/* {
-                            movieLists.map(movie => (
-                                <MovieCard key={movie.id} name={movie.title} imagePath={movie.poster_path} releaseDate={movie.release_date} />
-                            ))
-                        } */}
-                        </motion.div>
-                    </div>
-                </>)
-            }
-        </section >)
+        </section>
+    )
 }
 
-export default MovieLists
+export default MovieList
+
+
+

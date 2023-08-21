@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body{
@@ -13,6 +14,8 @@ body{
     min-height: 100vh;
     max-width: 1512px;
     margin: auto !important;
+    color: #050636;
+    /* margin-bottom:3rem !important; */
 }
 .fade-out-bck {
 	-webkit-animation: fade-out-bck 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -102,3 +105,5 @@ body{
     padding: var(--img-gap);
     border-radius: 1rem;
   }
+
+  

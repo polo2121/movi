@@ -1,4 +1,3 @@
-import React from 'react'
 
 // - assets 
 import RoundedLineTop from "../../assets/svgs/hero-line-1.svg"
@@ -11,9 +10,9 @@ import clsx from 'clsx'
 const Backdrop = ({ children }) => {
 
     const backdropCss = clsx(
-        'bg-white relative flex rounded-[1.9rem] items-center h-fit',
+        'bg-white relative flex flex-col rounded-[1.9rem] items-center h-fit py-20 px-10',
         'md:w-full md:flex-row',
-        'sm:flex-col sm:h-fit sm:px-6 sm:py-20 sm:gap-20',
+        'sm:h-fit sm:px-6 sm:py-20 sm:gap-20',
     )
 
     return (

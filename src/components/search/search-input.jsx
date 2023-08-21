@@ -6,7 +6,8 @@ import clsx from 'clsx';
 const SearchInput = ({ query, onSearch, isFocus, onFocus }) => {
 
     const searchInput = clsx(
-        'flex gap-1  w-[310px] h-12 rounded-full relative bg-white transition-transform',
+        'flex gap-1  border-2 border-blue-normal w-full h-12 rounded-full relative bg-white transition-transform',
+        'sm:w-[310px]',
         isFocus && 'translate-y-[-10px]',
         !isFocus && 'translate-y-[0px]'
     )

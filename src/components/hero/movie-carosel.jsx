@@ -1,127 +1,81 @@
-import React, { useEffect, useRef, useState } from 'react'
-
-// - components
-import MovieCaroselCard from './movie-carosel-card'
-import MovieCaroselImage from './movie-carosel-image'
-import MovieCaroselTitle from './movie-carosel-title'
-import MovieCaroselRating from "./movie-carosel-rating"
-import MovieCaroselInfo from './movie-carosel-info'
-import MovieSlideSkeleton from './movie-carosel-skeleton'
+import React, { useCallback, useEffect, useState } from 'react'
 
 // - third-party
-import axios from 'axios';
-import clsx from 'clsx';
-
+import clsx from 'clsx'
+import { motion } from 'framer-motion';
 
 
 const MovieCarosel = () => {
 
-    const [movieSlideOrder, setMovieSlideOrder] = useState(6)
-    const [movies, setMovies] = useState([]);
-    const [status, setStatus] = useState("complete");
+    const [slideAnimationFrame, setSlideAnimationFrame] = useState([{ x: 0, y: 0, z: 0 }, { x: "-35%", y: 0, z: "-120px" }, { x: "35%", y: 0, z: "-120px" }]);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setMovieSlideOrder((order) => {
-                if (order == 1)
-                    return 6
-
-                if (order >= 0 && order <= 6)
-                    return order - 1
-
-
-            })
-        }, 6000);
-        return () => clearInterval(interval);
-
-    }, [])
+    const [currentValue, setCurrentValue] = useState(0);
 
     // useEffect(() => {
-    //     setStatus("loading")
-    //     const controller = new AbortController();
-
-    //     const getTopRateMovies = async () => {
-    //         try {
-    //             const res = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?language=en-US&page=1&api_key=64856b8001240b857da978b710b84599`, { signal: controller.signal })
-
-    //             const trendingMovies = await res.data.results
-    //             console.log(trendingMovies.slice(0, 6))
-    //             setMovies(trendingMovies.slice(0, 5));
-    //             setStatus("complete")
-    //         } catch (error) {
-    //             console.log(error)
-    //             setStatus("error")
-
-    //         }
-
-    //         // return results;
-
-    //     }
-    //     const delayAPI = setTimeout(() => {
-    //         getTopRateMovies();
-    //     }, 3000)
-
-    //     return () => {
-    //         controller.abort();
-    //         clearTimeout(delayAPI);
-    //     }
+    //     console.log("Effect In")
+    //     const timer = setTimeout(() => {
+    //         console.log(slideAnimationFrame)
+    //         handleAnimation([...slideAnimationFrame])
 
 
+
+    //         // changeAnimation(...slideAnimation)
+    //     }, 5000);
+    //     return () => clearTimeout(timer);
+    // }, [slideAnimationFrame])
+
+    // const handleAnimation = useCallback(function changeAnimation(keyFrame) {
+    //     const firstKeyFrame = keyFrame.shift();
+    //     keyFrame.push(firstKeyFrame);
+    //     setSlideAnimationFrame(keyFrame)
+    //     setCurrentValue((prev) => {
+    //         if (prev === 2)
+    //             return 0
+    //         if (prev !== 2)
+    //             return prev + 1
+    //     })
+    //     // return keyFrame;
     // }, [])
 
-    const getMovieSlideStyle = (orderNum) => {
+    const peopleFavouriteWrapperCss = clsx('mt-10 px-6')
+    const titleCss = clsx('capitalize text-2xl font-bold text-[clamp(1.625rem,6.250vw-1rem,1.75rem)]')
+    const movieCaroselContainerCss = clsx('relative w-full h-fit overflow-hidden')
+    const movieCaroselWrapperCss = clsx('w-full h-fit mt-10')
+    const movieCaroselCardCss = clsx('w-[80%] absolute m-auto left-0 right-0 top-0')
 
-        let rotateDeg;
-        if (orderNum % 2)
-            rotateDeg = "rotate-[4deg]"
-        else
-            rotateDeg = "rotate-[-4deg]"
 
-        let movieSlideStyle = clsx(
-            movieSlideBase,
-            orderNum === 6 ? "rotate-[0deg]" : movieSlideOrder > 1 && movieSlideOrder <= orderNum ? "rotate-[0deg]" : rotateDeg,
-            movieSlideOrder > 1 && movieSlideOrder < orderNum && "fade-out-bck",
-            movieSlideOrder === 1 && "fade-in-fwd"
+    return (
+        <section className={peopleFavouriteWrapperCss}>
+            <h5 className={titleCss}>People Favourite</h5>
+            <section className={movieCaroselContainerCss} style={{ transformStyle: 'preserve-3d' }}>
+                <div className={movieCaroselWrapperCss} style={{ transformStyle: 'preserve-3d', perspective: '1000px', }}>
+                    <img className="opacity-0" width="80%" src="https://image.tmdb.org/t/p/w780/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg" alt="" />
 
-        )
-        return movieSlideStyle;
-    }
+                    <motion.div className={movieCaroselCardCss} transition={{ type: "spring", stiffness: 100 }}>
+                        <img src="https://image.tmdb.org/t/p/w780/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg" alt="" />
+                    </motion.div>
 
-    if (status === "loading")
-        return (<MovieSlideSkeleton />)
+                </div>
+            </section>
+            <section className='mt-4 flex overflow-hidden' style={{ transformStyle: 'preserve-3d', perspective: '1000px', }}>
+                <motion.div animate className='flex w-full' style={{ transformStyle: 'preserve-3d' }}>
+                    <motion.div className='w-full border-2 border-blue-normal p-6 rounded-lg flex flex-col gap-2 flex-1'>
+                        <h3 className='text-lg font-bold'>The Flash 2023</h3>
+                        <span className='text-base opacity-40'>Action/Horror</span>
+                        <p className='opacity-90'>Worlds collide when the Flash uses his superpowers to travel back in time to change the events of the past...</p>
+                    </motion.div>
 
-    if (status === "error")
-        return <div>Something is wrong</div>
+                </motion.div>
 
-    if (status === "complete")
-        return (
-            <MovieCaroselCard
-                image={<MovieCaroselImage />}
-                title={<MovieCaroselTitle movieTitle="Transformer" />}
-                rating={<MovieCaroselRating />}
-                info={<MovieCaroselInfo />}
-            />
-        )
+            </section>
+            <section className='mt-4 bg-slate00 flex justify-center items-center gap-2 w-full'>
+                <span className={`w-2 h-2 bg-slate-200 rounded-full block ${currentValue === 0 && 'bg-blue-normal'}`}></span>
+                <span className={`w-2 h-2 bg-slate-200 rounded-full block ${currentValue === 1 && 'bg-blue-normal'}`}></span>
+                <span className={`w-2 h-2 bg-slate-200 rounded-full block ${currentValue === 2 && 'bg-blue-normal'}`}></span>
 
-    // return (
-    //     <section className='bg-slate-600 w-1/2'>
-
-    //         {/* {status === "loading" && <MovieSlideSkeleton />}
-    //         {status === "Error" && <h1>Something went wrong</h1>}
-    //         {status == "complete" && <div className='w-[clamp(340px,25vw+1rem,400px)] h-[329px] m-auto'></div>}
-    //         {status === "complete" &&
-    //             movies?.map((movie, index) => (
-
-    //                 <a href="" key={movie.id} className={getMovieSlideStyle(index + 2)}>
-    //                     <MovieImage image={movie.poster_path} />
-    //                     <Rating />
-    //                     <MovieInfo name={movie.title} overview={movie.overview} />
-    //                 </a >)
-    //             )
-
-    //         } */}
-    //     </section>
-    // )
+            </section>
+        </section >
+    )
 }
 
 export default MovieCarosel

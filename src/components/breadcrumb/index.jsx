@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 const Breadcrumb = ({ title }) => {
 
-    const breadcrumbCss = clsx('uppercase text-[20px] md:text-[22px] font-bold');
+    const breadcrumbCss = clsx('uppercase text-[clamp(1.25rem,6.250vw-1rem,1.5rem)] md:text-[22px] font-bold');
 
     return (
         <h5 className={breadcrumbCss}>{title}</h5>

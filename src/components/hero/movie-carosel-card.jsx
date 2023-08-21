@@ -1,4 +1,6 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
+
 
 // - components
 
@@ -8,9 +10,9 @@ import clsx from 'clsx';
 const MovieCaroselCard = ({ image, title, rating, info }) => {
 
     const movieCaroselWrapperCss = clsx(
-        ' flex justify-center',
+        'justify-center hidden',
         'md:w-1/2 md:m-auto',
-        'sm:w-full'
+        'sm:w-full sm:flex'
     );
 
     const movieCaroselCardCss = clsx(
@@ -19,6 +21,8 @@ const MovieCaroselCard = ({ image, title, rating, info }) => {
         'md:w-[80%]',
         'sm:w-[60%]'
     );
+
+    const movieCaroselLinkCss = clsx("h-full block relative")
     //clamp(300px,22.817vw-1rem,329px)
 
     const movieCaroselCardBody = clsx(
@@ -30,21 +34,24 @@ const MovieCaroselCard = ({ image, title, rating, info }) => {
     const movieCaroselCardHeader = clsx('flex justify-between items-center');
 
     return (
-        <section className={movieCaroselWrapperCss}>
-            <section className={movieCaroselCardCss}>
-                <a href="" className=" h-full block relative">
-                    {image}
+        <>
+            <section className={movieCaroselWrapperCss}>
+                <section className={movieCaroselCardCss}>
+                    <NavLink className={movieCaroselLinkCss}>
+                        {image}
 
-                    <div className={movieCaroselCardBody}>
-                        <div className={movieCaroselCardHeader}>
-                            {title}
-                            {rating}
+                        <div className={movieCaroselCardBody}>
+                            <div className={movieCaroselCardHeader}>
+                                {title}
+                                {rating}
+                            </div>
+                            {info}
                         </div>
-                        {info}
-                    </div>
-                </a>
+                    </NavLink>
+                </section >
             </section >
-        </section>
+        </>
+
     )
 }
 

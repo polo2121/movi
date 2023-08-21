@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 // - components
-import MobileNav from './mobile-nav';
+import MobileNav from '../nav-mobile';
 import Logo from '../logo';
 import Menu from './menu';
 import MenuLink from './menu-link';
@@ -93,10 +93,10 @@ const Navbar = () => {
         }
     }
 
-    const navCss = clsx('relative');
+    const navCss = clsx('relative')
 
     const sideBarCss = clsx(
-        'fixed w-56 h-screen bg-white flex flex-col gap-8 overflow-hidden z-[70] shadow-2xl shadow-slate-300',
+        'fixed w-56 h-screen bg-white flex flex-col gap-8 overflow-hidden z-[70] shadow-2xl shadow-slate-300 overflow-scroll scrollbar-hide',
         isOpen && "py-4 px-2",
     )
 
@@ -117,43 +117,51 @@ const Navbar = () => {
     console.log(renderCount)
 
     return (
-        <motion.nav className={navCss} initial={false} animate={isOpen ? "open" : "closed"}>
-            <motion.div className={sideBarCss} variants={sidebar}>
-                <Logo />
-                <Menu name="menu" >
-                    {menuLinkNames.map(link => (
-                        <MenuLink key={link} route={link}>
-                            <Icon icon={link} />
-                            <LinkName name={link} />
-                        </MenuLink>
-                    ))}
-                </Menu>
-                <Menu name="category" >
-                    {categoryLinkNames.map(link => (
-                        <MenuLink key={link} route={link}>
-                            <Icon icon={link} />
-                            <LinkName name={link} />
-                        </MenuLink>
-                    ))}
-                </Menu>
-                <Menu name="general" >
-                    {generalLinkNames.map(link => (
-                        <MenuLink key={link} route={link}>
-                            <Icon icon={link} />
-                            <LinkName name={link} />
-                        </MenuLink>
-                    ))}
-                </Menu>
-            </motion.div >
-            <motion.button className={toggleBtnCss} onClick={() => toggleOpen()} variants={navToggle}>
-            </motion.button>
+        <>
             {
-                screenSize[0] >= 1024 ?
-                    (<motion.div className={emptySideBarCss} variants={emptySideBar}></motion.div>)
-                    : (<motion.nav className={mobileEmptySideBarCss} variants={mobileEmptySideBar}></motion.nav>)
+                screenSize[0] >= 640
+                    ?
+                    (<motion.nav className={navCss} initial={false} animate={isOpen ? "open" : "closed"}>
+                        <motion.div className={sideBarCss} variants={sidebar}>
+                            <Logo />
+                            <Menu name="menu" >
+                                {menuLinkNames.map(link => (
+                                    <MenuLink key={link} route={link}>
+                                        <Icon icon={link} />
+                                        <LinkName name={link} />
+                                    </MenuLink>
+                                ))}
+                            </Menu>
+                            <Menu name="category" >
+                                {categoryLinkNames.map(link => (
+                                    <MenuLink key={link} route={link}>
+                                        <Icon icon={link} />
+                                        <LinkName name={link} />
+                                    </MenuLink>
+                                ))}
+                            </Menu>
+                            <Menu name="general" >
+                                {generalLinkNames.map(link => (
+                                    <MenuLink key={link} route={link}>
+                                        <Icon icon={link} />
+                                        <LinkName name={link} />
+                                    </MenuLink>
+                                ))}
+                            </Menu>
+                        </motion.div >
+                        <motion.button className={toggleBtnCss} onClick={() => toggleOpen()} variants={navToggle}>
+                        </motion.button>
+                        {
+                            screenSize[0] >= 1024 ?
+                                (<motion.div className={emptySideBarCss} variants={emptySideBar}></motion.div>)
+                                : (<motion.nav className={mobileEmptySideBarCss} variants={mobileEmptySideBar}></motion.nav>)
+                        }
+                    </motion.nav>)
+                    :
+                    <MobileNav />
             }
+        </>
 
-        </motion.nav>
 
 
     )
