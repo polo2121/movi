@@ -7,7 +7,9 @@ import Breadcrumb from '../../components/breadcrumb'
 import Search from '../../components/search'
 import Logo from '../../components/logo'
 
-import MovieList from '../../components/movie-lists'
+const MovieList = lazy(() => import('../../components/movie-lists'));
+
+// import MovieList from '../../components/movie-lists'
 import Community from '../../components/community'
 import SignUp from '../../components/signup'
 

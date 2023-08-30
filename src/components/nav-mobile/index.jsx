@@ -27,7 +27,7 @@ const MobileNav = () => {
 
     return (
         <>
-            <button className='fixed z-[101] bottom-2 right-4 mb-2 w-12 h-12 rounded-full bg-blue-light shadow-lg flex justify-center items-center' onClick={() => toggleOpen()}>
+            <button className='fixed z-[101] bottom-2 right-4 mb-2 w-14 h-14 rounded-full bg-blue-light shadow-lg flex justify-center items-center' onClick={() => toggleOpen()}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={menuCss}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>

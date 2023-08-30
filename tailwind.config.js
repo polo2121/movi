@@ -26,6 +26,9 @@ export default {
         "center-bottom": "center bottom",
       },
       flex: {
+        8: "0 0 calc(100% / 8)",
+        7: "0 0 calc(100% / 7)",
+        6: "0 0 calc(100% / 6)",
         5: "0 0 calc(100% / 5)",
         4: "0 0 calc(100% / 4)",
         3: "0 0 calc(100% / 3)",

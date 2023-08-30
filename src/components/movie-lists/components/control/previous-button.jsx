@@ -6,12 +6,17 @@ import { motion } from 'framer-motion'
 // - third-party
 import clsx from 'clsx'
 
-const PreviousButton = ({ onPrev, moveValue }) => {
+const PreviousButton = ({ onPrev, itemPerScreen, moveSlide }) => {
+
+    const slideLimit = Math.floor(20 / itemPerScreen);
+
+    console.log(slideLimit, Math.abs(moveSlide))
 
     const checkDisableStatus = () => {
-        return Math.abs(moveValue) === 0 ? true : false
+        return Math.abs(moveSlide) === 0 ? true : false
     }
-    const prevStyle = clsx('flex w-[40px] h-[40px] rounded-full items-center relative justify-center shadow-3xl transition after:duration-200 after:ease-out after:hover:ease-in after:w-4 after:h-4 after:bg-blue-light after:absolute after:z-20 after:bottom-[0px] after:right-0 after:hover:w-full after:hover:h-full after:rounded-full  after:scale-0 after:hover:scale-[4] overflow-hidden', Math.abs(moveValue) === 0 && 'opacity-0')
+
+    const prevStyle = clsx('flex w-[50px] h-[50px] rounded-full items-center relative justify-center shadow-lg transition bg-white after:duration-200 after:ease-out after:hover:ease-in after:w-4 after:h-4 after:bg-blue-light after:absolute after:z-20 after:bottom-[0px] after:right-0 after:hover:w-full after:hover:h-full after:rounded-full  after:scale-0 after:hover:scale-[4] overflow-hidden', Math.abs(moveSlide) === 0 && 'opacity-0')
 
     return (
         <motion.button whileTap={{ scale: 0.8 }} whileHover={{ scale: 1.4 }} className={prevStyle} onClick={onPrev} disabled={checkDisableStatus()}>
